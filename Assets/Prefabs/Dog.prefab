@@ -435,3 +435,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 100
+  rotationAngle: 45
+  minimumDelay: 2.5
+  MaximumDelay: 5
+  dashTime: 0.25
+  dashForce: 2.5

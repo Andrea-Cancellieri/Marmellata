@@ -9,9 +9,16 @@ public class DogMovement : MonoBehaviour
 
     public float speed = 100.0f;
 
+    [Header("Max Rotation Angle")]
     public float rotationAngle = 45.0f;
+
+    [Header("Rotation Delay Interval")]
     public float minimumDelay = 2.5f;
     public float MaximumDelay = 5.0f;
+
+    [Header("Dash")]
+    public float dashTime = 0.25f;
+    public float dashForce = 2.5f;
 
     // Start is called before the first frame update
     void Start()
@@ -19,6 +26,7 @@ public class DogMovement : MonoBehaviour
         Rb = GetComponent<Rigidbody2D>();
 
         StartCoroutine(ChangeDirection());
+        StartCoroutine(DogDash());
     }
 
     // Update is called once per frame
@@ -37,11 +45,22 @@ public class DogMovement : MonoBehaviour
 	{
         float rotation = Random.Range(-rotationAngle, rotationAngle);
         transform.Rotate(0.0f, 0.0f, rotation, Space.Self);
+        //Rb.AddForce(this.transform.right * speed * 2000, ForceMode2D.Impulse);
+        StartCoroutine(DogDash());
 
         float delay = Random.Range(minimumDelay, MaximumDelay);
-
         yield return new WaitForSeconds(delay);
 
         StartCoroutine(ChangeDirection());
+
+    }
+
+    IEnumerator DogDash()
+    {
+        speed *= dashForce;
+
+        yield return new WaitForSeconds(dashTime);
+
+        speed /= dashForce;
     }
 }
