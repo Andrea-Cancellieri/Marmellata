@@ -10,7 +10,7 @@ public class DogMovement : MonoBehaviour
     public float speed = 100.0f;
 
     [Header("Max Rotation Angle")]
-    public float rotationAngle = 45.0f;
+    public float rotationAngle = 40.0f;
 
     [Header("Rotation Delay Interval")]
     public float minimumDelay = 2.5f;
@@ -20,10 +20,16 @@ public class DogMovement : MonoBehaviour
     public float dashTime = 0.25f;
     public float dashForce = 2.5f;
 
+    private GameObject squirrel;
+    private float squirrelOffset;
+
     // Start is called before the first frame update
     void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
+        squirrel = GameObject.FindGameObjectWithTag("Finish");
+
+        squirrelOffset = squirrel.transform.position.y - transform.position.y;
 
         StartCoroutine(ChangeDirection());
         StartCoroutine(DogDash());
@@ -43,13 +49,18 @@ public class DogMovement : MonoBehaviour
 
     IEnumerator ChangeDirection()
 	{
-        float rotation = Random.Range(-rotationAngle, rotationAngle);
-        transform.Rotate(0.0f, 0.0f, rotation, Space.Self);
-        //Rb.AddForce(this.transform.right * speed * 2000, ForceMode2D.Impulse);
-        StartCoroutine(DogDash());
-
         float delay = Random.Range(minimumDelay, MaximumDelay);
         yield return new WaitForSeconds(delay);
+
+        // Change squirrel position
+        float randX = Random.Range(-rotationAngle, rotationAngle);
+        squirrel.transform.position = new Vector2(randX, transform.position.y + squirrelOffset);
+
+        Vector2 dir = new Vector2(squirrel.transform.position.x - transform.position.x, squirrel.transform.position.y - transform.position.y);
+        float angle = Mathf.Atan2(dir.x, dir.y) * Mathf.Rad2Deg;
+        transform.rotation = Quaternion.AngleAxis(-angle, Vector3.forward);
+
+        StartCoroutine(DogDash());
 
         StartCoroutine(ChangeDirection());
 

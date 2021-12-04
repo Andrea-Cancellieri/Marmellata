@@ -30,7 +30,7 @@ public class CameraMovement : MonoBehaviour
         Vector3 PlayerPosition = Player.transform.position;
         Vector3 DogPosition = Dog.transform.position;
 
-        transform.position = new Vector3(PlayerPosition.x + (DogPosition.x - PlayerPosition.x) / 2.0f, PlayerPosition.y + (DogPosition.y - PlayerPosition.y) / 2.0f, offset.z);
+        transform.position = new Vector3(0.0f, PlayerPosition.y + (DogPosition.y - PlayerPosition.y) / 2.0f, offset.z);
      }
 
 	public void ChangeCameraSize(int LeashLength)
