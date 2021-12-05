@@ -16,6 +16,8 @@ public class PlayerBehavior : MonoBehaviour
 
     Rigidbody2D Rb;
 
+    public GameObject LeashObject;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -55,6 +57,8 @@ public class PlayerBehavior : MonoBehaviour
 	{
         if (collision.gameObject.CompareTag("Obstacle"))
         {
+            //bCollision = true;
+
             SpringJoint2D Leash = GetComponent<SpringJoint2D>();
             if(Leash)
 			{
@@ -64,17 +68,18 @@ public class PlayerBehavior : MonoBehaviour
                 {
                     Leash.breakForce = 0;
                     bCanMove = false;
-                    
-                    // Calls game over function
-                    GameEvents.EventsManager.LeashBroken();
+
+                    LeashObject.GetComponent<LineRenderer>().enabled = false;
+                    Destroy(LeashObject);
                 }
             }
 
-			GameObject MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-			if (MainCamera)
-			{
-				MainCamera.GetComponent<CameraMovement>().ChangeCameraSize(DamagePerHit);
-			}
+            // Camera back
+			//GameObject MainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+			//if (MainCamera)
+			//{
+			//	MainCamera.GetComponent<CameraMovement>().ChangeCameraSize(DamagePerHit);
+			//}
 		}
 	}
 }

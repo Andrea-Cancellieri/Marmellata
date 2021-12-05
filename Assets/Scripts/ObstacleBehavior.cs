@@ -10,19 +10,16 @@ public class ObstacleBehavior : MonoBehaviour
     [Range(0, 9)]
     public float friction = 5.0f;
 
+    AudioSource audioSource;
+
 
     // Start is called before the first frame update
     void Start()
     {
         Rb = GetComponent<Rigidbody2D>();
+        audioSource = GetComponent<AudioSource>();
 
         friction *= 0.01f;
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
     }
 
 	private void FixedUpdate()
@@ -42,5 +39,10 @@ public class ObstacleBehavior : MonoBehaviour
 	private void OnCollisionEnter2D(Collision2D collision)
 	{
         bIsColllided = true;
-	}
+
+        if(collision.gameObject.CompareTag("Player"))
+		{
+            audioSource.Play();
+		}
+    }
 }

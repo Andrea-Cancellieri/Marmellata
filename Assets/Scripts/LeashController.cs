@@ -11,8 +11,6 @@ public class LeashController : MonoBehaviour
     void Awake()
     {
         Leash = GetComponent<LineRenderer>();
-
-        GameEvents.EventsManager.OnLeashBroken += OnBroken;
     }
 
     public void SetUpLine(Transform[] points)
@@ -27,11 +25,5 @@ public class LeashController : MonoBehaviour
 		{
             Leash.SetPosition(i, points[i].position);
 		}
-    }
-
-	private void OnBroken()
-    {
-        Leash.enabled = false;
-        Destroy(this);
     }
 }
